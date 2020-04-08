@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - role: generic-install-crowdstrike-falcon-agent
+      vars:
+        USE_PROXY: True
+        HTTP_PROXY: http://my-overwrite-proxy-server-here.unsecure-world.com:3128
+        PROXY_SERVER: my-overwrite-proxy-server-here.unsecure-world.com
+        PROXY_PORT: 3128
+        MY_GROUPING_TAGS: "YOUR-OVERWRITE-TAGS,YOUR-SUPER-SECURE-SERVER,YOUR-SECURITY-TAG,LANDSCAPE"
+        CUSTOMER_ID: "YOUR-CUSTOMER-ID-HERE"

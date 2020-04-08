@@ -1,0 +1,9 @@
+---
+###################################################################################################################
+# Validation IaC Configuration State.
+###################################################################################################################
+  - name: Validating the Underlaying IaC...
+    stat:
+      path: '{{LINUX_IAC_ROOT_DIRECTORY}}\crodwstrike-falcon-agent-is-installed.md'
+    register: agent_status_is
+  - debug: var=agent_status_is

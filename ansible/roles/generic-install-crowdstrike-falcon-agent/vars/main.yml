@@ -1,0 +1,30 @@
+---
+# vars file for generic-install-crowdstrike-falcon-agent
+
+    
+    
+    # Sensor Installation Variables.
+    
+    PROXY_PORT: 3128
+    
+    
+    # Windows related variables
+    windows:
+     csf_exe: WindowsSensor.exe
+     csf_exe_url: https://your-personal-repository-must-be-here/WindowsSensor.exe
+     csf_exe_md5sum: get-md5sum-if-you-want-to-validate-packet-integretity.
+    
+    # RHEL 7 related variables
+    rhel7:
+     csf_rpm: falcon-sensor-5.29.0-9402.el7.x86_64.rpm
+     csf_rpm_url: https://your-personal-repository-must-be-here/falcon-sensor-5.29.0-9402.el7.x86_64.rpm
+     csf_rpm_md5sum: get-md5sum-if-you-want-to-validate-packet-integretity.
+    
+    # RHEL 7 related variables
+    
+    linux-ami2:
+     csf_deb: falcon-sensor-5.29.0-9402.amzn2.x86_64.rpm
+     csf_deb_url: https://your-personal-repository-must-be-here/falcon-sensor-5.29.0-9402.amzn2.x86_64.rpm
+     csf_deb_checksum: get-md5sum-if-you-want-to-validate-packet-integretity.
+    
+    

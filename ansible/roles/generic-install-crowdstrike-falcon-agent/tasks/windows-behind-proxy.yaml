@@ -1,0 +1,60 @@
+---
+###################################################################################################################
+# Validation IaC Configuration State.
+###################################################################################################################
+  - name: Validating the Underlaying IaC...
+    win_stat:
+      path: C:\techdata-iac\crodwstrike-falcon-agent-is-installed.md
+    register: agent_status_is
+  - debug: var=agent_status_is
+
+  # Download the CrowdStrike agent for Windows
+  - name: Downloading the CrowdStrike agent for Windows ...
+    win_get_url:
+      force: True
+      validate_certs: False #SSL certificates will not be validated.
+      url: "{{windows.csf_exe_url}}" # Full URL to download from.
+      dest: C:\WindowsSensor.exe  # Path to download to.
+      proxy_url: "{{HTTP_PROXY}}"
+    register: iac_status_is
+    when: agent_status_is.stat.exists == false
+  - debug: var=iac_status_is
+    tags: download_windows_agent
+
+  # Install the downloaded CrowdStrike package
+  - name: Installing the CrowdStrike agent for Windows ...
+    win_shell: 'WindowsSensor.exe /install /quiet /norestart CID={{CUSTOMER_ID}} GROUPING_TAGS="{{MY_GROUPING_TAGS}}" APP_PROXYNAME={{PROXY_SERVER}} APP_PROXYPORT={{PROXY_PORT}} /log "%SYSTEMROOT%\Temp\CSInstall.log"'
+    args:
+      chdir: C:\ # Parent location for the downloaded installer.
+      executable: cmd
+    register: iac_status_is
+    when: agent_status_is.stat.exists == false
+    tags: install_windows_agent
+  - debug: var=iac_status_is
+
+  - name: Cleanup Temporal Installer.
+    win_file:
+      path: C:\WindowsSensor.exe
+      state: absent
+    register: iac_status_is
+    when: agent_status_is.stat.exists == false
+  - debug: var=iac_status_is
+
+  - name: Registrying IaC Configuration DataStore.
+    win_file:
+      path: C:\techdata-iac
+      state: directory
+    register: iac_directory_is
+    when: agent_status_is.stat.exists == false
+  - debug: var=iac_directory_is
+
+  - name: Set IaC Flag to mark CS Falcon Agent Installed on Windows Host.
+    win_file:
+      path: C:\techdata-iac\crodwstrike-falcon-agent-is-installed.md
+      state: touch
+    register: iac_directory_is
+    when: agent_status_is.stat.exists == false
+  - debug: var=iac_directory_is
+
+    
+

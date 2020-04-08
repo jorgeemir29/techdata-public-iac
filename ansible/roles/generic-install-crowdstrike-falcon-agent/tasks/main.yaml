@@ -1,0 +1,18 @@
+---
+# Import tasks from windows-hosts / windows-hosts behing proxy.
+  - name: Importing task for Windows-Hosts...
+    import_tasks: windows.yaml
+    when: ansible_os_family == "Windows"
+
+  - name: Importing tasks for Windows Host Behing Proxy...
+    import_tasks: windows-behind-proxy.yaml
+    when: ansible_os_family == "Windows" and USE_PROXY == True
+
+  # Import tasks from redhat-hosts / behing proxy.
+  - name: Importing Tasks for Linux-RHEL Hosts ....
+    import_task: linux-rhel.yaml
+    when: ansible_os_family == "RedHat"
+
+  - name: Importing tasks from Linux-RHEL Behing Proxy ...
+    import_tasks: linux-rhel-behind-proxy.yaml
+    when: ansible_os_family == "RedHat" and USE_PROXY == True

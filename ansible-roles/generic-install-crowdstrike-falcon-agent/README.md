@@ -27,7 +27,7 @@ Requirements
 * SSH Public/Private Keys Registred between Satellites and Target Servers.
 * Installer path for the falcon agent, must be provided according to your environment.
 * Customer ID must be provided according to your environment and subcription.
-*
+
 
 *_Note: if there is no a valid RHEL subcription, you need to setup Redmin , EPEL and Alternative CentOS repositories._*
 

@@ -19,6 +19,7 @@
      csf_rpm: falcon-sensor-5.29.0-9402.el7.x86_64.rpm
      csf_rpm_url: https://your-personal-repository-must-be-here/falcon-sensor-5.29.0-9402.el7.x86_64.rpm
      csf_rpm_md5sum: get-md5sum-if-you-want-to-validate-packet-integretity.
+     CSF_SRC_DIR: /opt/iac/crowdstrike-falcon-src
     
     # RHEL 7 related variables
     

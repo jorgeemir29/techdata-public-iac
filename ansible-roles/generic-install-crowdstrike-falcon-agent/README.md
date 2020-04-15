@@ -56,7 +56,8 @@ windows:
 linux-rhel7:
   - csf_rpm: falcon-sensor-4.5.0-5015.el7.x86_64.rpm
   - csf_rpm_url: "{{ url }}/{{ csf_rpm }}"
-  - csf_rpm_checksum: 
+  - csf_rpm_checksum:
+  - CSF_SRC_DIR: /opt/iac/crowdstrike-falcon-src
 
 
 linux-ami2:

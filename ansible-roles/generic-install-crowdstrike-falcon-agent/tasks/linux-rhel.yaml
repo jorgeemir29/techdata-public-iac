@@ -1,9 +1,68 @@
 ---
-###################################################################################################################
-# Validation IaC Configuration State.
-###################################################################################################################
-  - name: Validating the Underlaying IaC...
-    stat:
-      path: '{{LINUX_IAC_ROOT_DIRECTORY}}\crodwstrike-falcon-agent-is-installed.md'
-    register: agent_status_is
-  - debug: var=agent_status_is
+  ###################################################################################################################
+  # Validation IaC Configuration State.
+  ###################################################################################################################
+    - name: RHEL7 - Validating the Underlaying IaC...
+      stat:
+        path: '{{LINUX_IAC_ROOT_DIRECTORY}}/crodwstrike-falcon-agent-is-installed.md'
+      register: agent_status_is
+    - debug: var=agent_status_is
+  
+    - name: RHEL7 - Create Temporal Installation Directory.
+      file:
+        path: "{{rhel7.CSF_SRC_DIR}}"
+        state: directory
+      register: iac_status_is
+      when: agent_status_is.stat.exists == false
+    - debug: var=iac_status_is
+  
+    - name: RHEL7 - Download CSF - Agent RPM Installer From Artifac Location.
+      get_url:
+        url: "{{rhel7.csf_rpm_url}}"
+        dest: "{{rhel7.CSF_SRC_DIR}}/"
+      register: iac_status_is
+      when: agent_status_is.stat.exists == false
+    - debug: var=iac_status_is
+  
+    - name: RHEL 7 - Install Crowdstrike Falcon Agent....
+      yum:
+        name: "{{rhel7.CSF_SRC_DIR}}/{{rhel7.csf_rpm}}"
+        state: present
+      register: iac_status_is
+      when: agent_status_is.stat.exists == false
+    - debug: var=iac_status_is
+  
+    - name: RHEL 7 - Stop Falcon-Agent Service.
+      service:
+        name: falcon-sensor
+        state: stopped
+      register: iac_status_is
+      when: agent_status_is.stat.exists == false
+    - debug: var=agent_status_is
+  
+    - name: RHEL 7 - Registre Falcon-Agent Customer ID.
+      shell: /opt/CrowdStrike/falconctl -s --cid="{{CUSTOMER_ID}}"
+      register: iac_status_is
+      when: agent_status_is.stat.exists == false
+    - debug: var=agent_status_is
+      
+    - name: RHEL 7 - Start Falcon-Agent Service.
+      service:
+        name: falcon-sensor
+        state: started
+      register: iac_status_is
+      when: agent_status_is.stat.exists == false
+    - debug: var=agent_status_is
+  
+    - name: RHEL 7 - Set IaC Control Flag for Falcon-Agent.
+      file:
+        path: '{{LINUX_IAC_ROOT_DIRECTORY}}/crodwstrike-falcon-agent-is-installed.md'
+        state: touch
+      register: iac_directory_is
+      when: agent_status_is.stat.exists == false
+    - debug: var=iac_directory_is
+  
+  
+      
+  
+        
